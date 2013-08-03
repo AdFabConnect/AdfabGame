@@ -102,7 +102,7 @@ class PrizeCategory extends EventProvider implements ServiceManagerAwareInterfac
 
     public function getActivePrizeCategories()
     {
-        $em = $this->getServiceManager()->get('adfabgame_doctrine_em');
+        $em = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
 
         $query = $em->createQuery('SELECT p FROM AdfabGame\Entity\PrizeCategory p WHERE p.active = true');
         $categories = $query->getResult();

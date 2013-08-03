@@ -150,6 +150,7 @@ class QuizController extends GameController
 
         $statusMail = null;
         $prediction = false;
+		$userTimer = array();
 
         $game = $sg->checkGame($identifier);
         if (!$game || $game->isClosed()) {
@@ -186,6 +187,16 @@ class QuizController extends GameController
         } else {
             $ratioCorrectAnswers = 100;
         }
+		
+		if($game->getTimer()){
+			$timer = $sg->getEntryMapper()->findOneBy(array('game' => $game , 'user'=> $user));
+			$start = $timer->getCreatedAt()->format('U');
+			$end = $timer->getUpdatedAt()->format('U');
+			$userTimer = array(
+								'ratio' 	=> $ratioCorrectAnswers,
+								'timer' 	=> $end - $start, 
+								);
+		}
 
         // Je prépare le tableau des bonnes réponses trouvées et non trouvées
         $gameCorrectAnswers = array();
@@ -215,7 +226,7 @@ class QuizController extends GameController
             $data = $this->getRequest()->getPost()->toArray();
             $form->setData($data);
             if ($form->isValid()) {
-                $result = $this->getGameService()->sendShareMail($data, $game, $user);
+                $result = $this->getGameService()->sendShareMail($data, $game, $user, 'share_game', null, $userTimer);
                 if ($result) {
                     $statusMail = true;
                     if ($lastEntry->getWinner()) {
@@ -239,7 +250,8 @@ class QuizController extends GameController
             'ratioCorrectAnswers' => $ratioCorrectAnswers,
             'gameCorrectAnswers'  => $gameCorrectAnswers,
             'socialLinkUrl' 	  => $socialLinkUrl,
-            'secretKey'		  	  => $secretKey
+            'secretKey'		  	  => $secretKey,
+            'userTimer' 		  => $userTimer,
         ));
 
         return $viewModel;

@@ -16,7 +16,7 @@ class PrizeCategory extends ProvidesEventsForm
     {
         parent::__construct($name);
 
-        $entityManager = $serviceManager->get('adfabgame_doctrine_em');
+        $entityManager = $serviceManager->get('doctrine.entitymanager.orm_default');
 
         parent::__construct();
         $this->setAttribute('enctype','multipart/form-data');

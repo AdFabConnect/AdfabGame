@@ -63,6 +63,9 @@ class PrizeCategoryController extends GameController
                     'pageGames' => 'games',
                     'pageWinners' => ''
                 ),
+                'headParams' => array(
+                    'headTitle' => $prizeCategory->getTitle(),
+                ),
             )
         );
 

@@ -70,7 +70,7 @@ class PostVote extends Game implements ServiceManagerAwareInterface
         }
     }
 
-	public function deleteFilePosted($data, $game, $user)
+    public function deleteFilePosted($data, $game, $user)
     {
         $postvotePostMapper = $this->getPostVotePostMapper();
         $postVotePostElementMapper = $this->getPostVotePostElementMapper();
@@ -83,20 +83,20 @@ class PostVote extends Game implements ServiceManagerAwareInterface
         }
 
         $post = $postvotePostMapper->findOneBy(array('entry' => $entry));
-		$element = $postVotePostElementMapper->findOneBy(array('post' => $post->getId(), 'name' => $data['name']));
+        $element = $postVotePostElementMapper->findOneBy(array('post' => $post->getId(), 'name' => $data['name']));
 
         if ($element) {
             $element = $postVotePostElementMapper->remove($element);
-			if($element) {
-				return true;
-			} else {
-				return false;
-			}
+            if($element) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-        	return false;
+            return false;
         }
     }
-	
+    
     /**
      *
      *
@@ -137,11 +137,16 @@ class PostVote extends Game implements ServiceManagerAwareInterface
         $position=1;
         //$postVotePostElementMapper->removeAll($post);
         foreach ($data as $name => $value) {
+            $postElement = $postVotePostElementMapper->findOneBy(array('post' => $post, 'name' => $name));
+            if (! $postElement) {
+                $postElement = new \AdfabGame\Entity\PostVotePostElement();
+            }
+            $postElement->setName($name);
+            $postElement->setPosition($position);
             // TODO : Manage uploads
-            if (is_array($value)) {
-                if (!empty($value['tmp_name'])) {
-
-                    ErrorHandler::start();
+            if (is_array($value) && isset($value['tmp_name'])) {
+				if ( ! $value['error'] ) {
+                	ErrorHandler::start();
 /*
                     $adapter = new \Zend\File\Transfer\Adapter\Http();
                     // 400ko
@@ -164,33 +169,19 @@ class PostVote extends Game implements ServiceManagerAwareInterface
                         return false;
                     }
 */
+					$value['name'] = $this->fileNewname($path, $value['name'], true);
                     move_uploaded_file($value['tmp_name'], $path . $value['name']);
-                    $postElement = $postVotePostElementMapper->findOneBy(array('post' => $post, 'name' => $name));
-                    if (! $postElement) {
-                        $postElement = new \AdfabGame\Entity\PostVotePostElement();
-                    }
-                    $postElement->setName($name);
-                    $postElement->setPosition($position);
                     $postElement->setValue($media_url . $value['name']);
-                    $postElement->setPost($post);
-                    $postElement = $postVotePostElementMapper->insert($postElement);
                     ErrorHandler::stop(true);
                 }
             } else {
-                $postElement = $postVotePostElementMapper->findOneBy(array('post' => $post, 'name' => $name));
-                if (! $postElement) {
-                    $postElement = new \AdfabGame\Entity\PostVotePostElement();
-                }
-                $postElement->setName($name);
-                $postElement->setPosition($position);
                 $postElement->setValue($value);
-                $postElement->setPost($post);
-                $postElement = $postVotePostElementMapper->insert($postElement);
             }
+            $postElement->setPost($post);
+            $postElement = $postVotePostElementMapper->insert($postElement);
             $position++;
         }
         $postvotePostMapper->update($post);
-
         return $post;
     }
 
@@ -272,45 +263,45 @@ class PostVote extends Game implements ServiceManagerAwareInterface
     public function findArrayOfValidatedPosts($game, $filter, $search='')
     {
         //$posts = $this->getPostVotePostMapper()->findBy(array('postvote'=> $game, 'status' => 2));
-		$em = $this->getServiceManager()->get('adfabgame_doctrine_em');
-		$postSort = '';
-		$filterSearch = '';
-		switch ($filter) {
-			case 'random' :
-				$postSort = 'ORDER BY e.value ASC';
-				break;
-			case 'vote' :
-				$postSort = 'ORDER BY votesCount DESC';
-				break;
-			case 'date' :
-				$postSort = 'ORDER BY p.createdAt DESC';
-		}
-		
-		if ($search != '') {
+        $em = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
+        $postSort = '';
+        $filterSearch = '';
+        switch ($filter) {
+            case 'random' :
+                $postSort = 'ORDER BY e.value ASC';
+                break;
+            case 'vote' :
+                $postSort = 'ORDER BY votesCount DESC';
+                break;
+            case 'date' :
+                $postSort = 'ORDER BY p.createdAt DESC';
+        }
+        
+        if ($search != '') {
             $filterSearch = " AND (u.username like '%" . $search . "%' OR u.lastname like '%" . $search . "%' OR u.firstname like '%" . $search . "%' OR e.value like '%" . $search . "%')";
         }
-		
-		$query = $em->createQuery('
-			SELECT p, COUNT(v) AS votesCount
-			FROM AdfabGame\Entity\PostVotePost p
-			JOIN p.postvote g
-			JOIN p.user u
-			JOIN p.postElements e
-			LEFT JOIN p.votes v
-			WHERE g.id = :game
-			' . $filterSearch . '
-			AND p.status = 2
-			GROUP BY p.id
-			' . $postSort . '
-		');
+        
+        $query = $em->createQuery('
+            SELECT p, COUNT(v) AS votesCount
+            FROM AdfabGame\Entity\PostVotePost p
+            JOIN p.postvote g
+            JOIN p.user u
+            JOIN p.postElements e
+            LEFT JOIN p.votes v
+            WHERE g.id = :game
+            ' . $filterSearch . '
+            AND p.status = 2
+            GROUP BY p.id
+            ' . $postSort . '
+        ');
 
-		$query->setParameter('game', $game);
-		$posts = $query->getResult();
+        $query->setParameter('game', $game);
+        $posts = $query->getResult();
         $arrayPosts = array();
         $i=0;
         foreach ($posts as $postRaw) {
             $data = array();
-			$post = $postRaw[0];
+            $post = $postRaw[0];
             foreach ($post->getPostElements() as $element) {
                 $data[$element->getPosition()] = $element->getValue();
             }

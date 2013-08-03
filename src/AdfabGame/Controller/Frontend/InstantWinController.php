@@ -131,15 +131,14 @@ class InstantWinController extends GameController
 
         $viewModel = $this->buildView($game);
         $viewModel->setVariables(array(
-                'statusMail'       => $statusMail,
-                'game'             => $game,
-                'winner'           => $winner,
-                'flashMessages'    => $this->flashMessenger()->getMessages(),
-                'form'             => $form,
-                'socialLinkUrl'    => $socialLinkUrl,
-                'secretKey'		   => $secretKey
-            )
-        );
+            'statusMail'       => $statusMail,
+            'game'             => $game,
+            'winner'           => $winner,
+            'flashMessages'    => $this->flashMessenger()->getMessages(),
+            'form'             => $form,
+            'socialLinkUrl'    => $socialLinkUrl,
+            'secretKey'		   => $secretKey
+        ));
 
         return $viewModel;
     }

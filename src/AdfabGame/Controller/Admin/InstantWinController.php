@@ -9,6 +9,9 @@ use AdfabGame\Entity\InstantWinOccurrence;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\Paginator\Paginator;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 
 class InstantWinController extends AbstractActionController
 {
@@ -146,16 +149,12 @@ class InstantWinController extends AbstractActionController
         }
 
         //$instantwin = $service->getGameMapper()->findById($gameId);
-        $occurrences = $service->getInstantWinOccurrenceMapper()->findByGameId($gameId, array('occurrence_date' => $filter));
 		$game = $service->getGameMapper()->findById($gameId);
-
-        if (is_array($occurrences)) {
-            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($occurrences));
-            $paginator->setItemCountPerPage(50);
-            $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
-        } else {
-            $paginator = $occurrences;
-        }
+		
+		$adapter = new DoctrineAdapter(new ORMPaginator($service->getInstantWinOccurrenceMapper()->queryByGame($game, array('occurrence_date' => $filter))));
+		$paginator = new Paginator($adapter);
+		$paginator->setItemCountPerPage(25);
+		$paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
 
         return new ViewModel(
             array(
@@ -284,16 +283,11 @@ class InstantWinController extends AbstractActionController
     {
         $gameId         = $this->getEvent()->getRouteMatch()->getParam('gameId');
         $game           = $this->getAdminGameService()->getGameMapper()->findById($gameId);
-
-        $entries = $this->getAdminGameService()->getEntryMapper()->findBy(array('game' => $game));
-
-        if (is_array($entries)) {
-            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($entries));
-            $paginator->setItemCountPerPage(10);
-            $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
-        } else {
-            $paginator = $entries;
-        }
+        
+        $adapter = new DoctrineAdapter(new ORMPaginator( $this->getAdminGameService()->getEntryMapper()->queryByGame($game)));
+        $paginator = new Paginator($adapter);
+        $paginator->setItemCountPerPage(10);
+        $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
 
         return array(
                 'entries' => $paginator,

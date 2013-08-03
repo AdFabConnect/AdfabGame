@@ -121,6 +121,9 @@ return array(
 		// Front post&vote email moderation
 		'This post has been reported in a game.' => 'Ce post a été signalé dans un jeu.',
 		
+        // Front post&vote
+        'This field contains more than %s characters' => 'Ce champ contient plus de %s caractères',
+		
 		// Admin Lottery
 		'Create lottery' => 'Créer un tirage au sort',
 		'Edit lottery' 	=> 'Editer un tirage au sort',

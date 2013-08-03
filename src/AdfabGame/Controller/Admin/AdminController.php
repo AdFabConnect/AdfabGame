@@ -7,6 +7,9 @@ use AdfabGame\Entity\Game;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use AdfabGame\Options\ModuleOptions;
+use Zend\Paginator\Paginator;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 
 class AdminController extends AbstractActionController
 {
@@ -45,18 +48,13 @@ class AdminController extends AbstractActionController
         $type	= $this->getEvent()->getRouteMatch()->getParam('type');
 
         $service 	= $this->getAdminGameService();
-		$games 	= $service->getGamesOrderBy($type, $filter);
+		$adapter = new DoctrineAdapter(new ORMPaginator($service->getQueryGamesOrderBy($type, $filter)));
+		$paginator = new Paginator($adapter);
+		$paginator->setItemCountPerPage(25);
+		$paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
 
-        foreach ($games as $game) {
-            $game->leaderboard = $this->getAdminGameService()->getEntryMapper()->findBy(array('game' => $game->getId()));
-        }
-
-        if (is_array($games)) {
-            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($games));
-            $paginator->setItemCountPerPage(25);
-            $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
-        } else {
-            $paginator = $games;
+        foreach ($paginator as $game) {
+            $game->leaderboard = $service->getEntryMapper()->countByGame($game);
         }
 
         return array(

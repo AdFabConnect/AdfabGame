@@ -17,7 +17,7 @@ class ShareMail extends ProvidesEventsForm
         parent::__construct($name);
 
         $this->setServiceManager($sm);
-        $entityManager = $this->getServiceManager()->get('adfabgame_doctrine_em');
+        $entityManager = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
 
         $this->add(array(
             'name' => 'email1',

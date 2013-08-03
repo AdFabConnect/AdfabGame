@@ -42,6 +42,17 @@ class InstantWinOccurrence
     {
         return $this->getEntityRepository()->findBy(array('instantwin' => $instant_win), $sortArray);
     }
+    
+    public function queryByGame($instant_win, $sortArray = array())
+    {
+        $query = $this->em->createQuery(
+            'SELECT i FROM AdfabGame\Entity\InstantWinOccurrence i
+                WHERE i.instantwin = :game
+            '.( ! empty($sortArray) ? 'ORDER BY i.'.key($sortArray).' '.current($sortArray) : '' )
+        );
+        $query->setParameter('game', $instant_win);
+        return $query;
+    }
 
     public function findBy($array = array(), $sortArray = array())
     {
