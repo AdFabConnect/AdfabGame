@@ -22,7 +22,7 @@ class IndexController extends AbstractActionController
      */
     protected $gameService;
 
-    public function indexAction()
+    /*public function indexAction()
     {
         $identifier = $this->getEvent()->getRouteMatch()->getParam('id');
         if (!$identifier) {
@@ -84,7 +84,7 @@ class IndexController extends AbstractActionController
         );
 
         return $viewModel;
-    }
+    }*/
 
     /**
      * --DONE-- 1. try to change the Game Id (on le redirige vers la home du jeu)
@@ -95,7 +95,7 @@ class IndexController extends AbstractActionController
      * 6. try to change answers
      *  --DONE-- 7. essaie de répondre sans être inscrit (on le redirige vers la home du jeu)
      */
-    public function quizQuestionsAction()
+    /*public function quizQuestionsAction()
     {
         $identifier = $this->getEvent()->getRouteMatch()->getParam('id');
         if (!$identifier) {
@@ -179,9 +179,6 @@ class IndexController extends AbstractActionController
         return $viewModel;
     }
 
-    /**
-     *
-     */
     public function quizResultAction()
     {
         $identifier = $this->getEvent()->getRouteMatch()->getParam('id');
@@ -418,5 +415,5 @@ class IndexController extends AbstractActionController
         }
 
         return $message;
-    }
+    }*/
 }

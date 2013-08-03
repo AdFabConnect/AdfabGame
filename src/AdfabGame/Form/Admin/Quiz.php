@@ -13,7 +13,7 @@ class Quiz extends Game
     public function __construct($name = null, ServiceManager $sm, Translator $translator)
     {
         $this->setServiceManager($sm);
-        $entityManager = $sm->get('adfabgame_doctrine_em');
+        $entityManager = $sm->get('doctrine.entitymanager.orm_default');
 
         // Mapping of an Entity to get value by getId()... Should be taken in charge by Doctrine Hydrator Strategy...
         // having to fix a DoctrineModule bug :( https://github.com/doctrine/DoctrineModule/issues/180
@@ -23,7 +23,7 @@ class Quiz extends Game
 
         parent::__construct($name, $sm, $translator);
 
-        $entityManager = $sm->get('adfabgame_doctrine_em');
+        $entityManager = $sm->get('doctrine.entitymanager.orm_default');
 
         $this->add(array(
                 'type' => 'Zend\Form\Element\Select',

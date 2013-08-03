@@ -11,7 +11,8 @@ $ourView  = $children[0];
 <html xmlns="http://www.w3.org/1999/xhtml" 
       xmlns:og="http://opengraphprotocol.org/schema/" lang="fr">
     <head>
-        <?php echo $this->head();?>
+        <?php //echo $this->partial('adfab-game/frontend/partial/meta.phtml', array('headParams' => $this->headParams)) ?>
+        <?php //echo $this->head();?>
     </head>
     <body>
     	<div id="container">
@@ -19,7 +20,7 @@ $ourView  = $children[0];
 			<div id="content" class="row-fluid">
 				
             	<!-- HEADER WRAPPER -->
-	            <?php echo $this->header(array('adserving' => $this->adserving, 'currentPage' => $this->currentPage));?>
+	            <?php //echo $this->header(array('adserving' => $this->adserving, 'currentPage' => $this->currentPage));?>
 	            <!-- END HEADER WRAPPER -->
 	                
 	            <!-- CONTENT PAGE -->
@@ -34,7 +35,7 @@ $ourView  = $children[0];
 
 	                <?php 
 	                // TODO : Positionner ça dans un listener des modules concernés (AdfabGame & AdfabCms)
-	                    $container = $this->navigation()
+	                    /*$container = $this->navigation()
     	                    ->breadcrumbs('nav')
     	                    ->setMaxDepth(3)
                     		->setMinDepth(0)
@@ -46,10 +47,10 @@ $ourView  = $children[0];
 	                    if($active && $this->breadcrumbTitle){
     	                    $active = $active['page'];
     	                    $active->setLabel($this->breadcrumbTitle);
-	                    }
+	                    }*/
 	                ?>
 	                
-    	            <?php echo $container; ?>
+    	            <?php //echo $container; ?>
 	                <div class="row-fluid">
 	                	<!-- CONTENT-INNER -->
 	                	<div class="content-inner span8">
@@ -58,7 +59,7 @@ $ourView  = $children[0];
 	                		
 	                	<!-- SIDEBAR -->
 	                	
-	                	<?php echo $this->column_right?>
+	                	<?php //echo $this->column_right?>
 	                	
 	                	<!-- END SIDEBAR -->
 	                </div>
@@ -66,7 +67,7 @@ $ourView  = $children[0];
 	            </div><!-- END CONTENT PAGE -->
 	            
                 <!-- FOOTER WRAPPER -->
-                <?php echo $this->footer();?>
+                <?php //echo $this->footer();?>
                 <!-- END FOOTER WRAPPER -->
                 
             </div> <!-- END CONTENT -->

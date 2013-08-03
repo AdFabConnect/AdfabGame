@@ -73,8 +73,9 @@ class Quiz extends Game implements ServiceManagerAwareInterface
 
         if (!empty($data['upload_image']['tmp_name'])) {
             ErrorHandler::start();
-            move_uploaded_file($data['upload_image']['tmp_name'], $path . $question->getId() . "-" . $data['upload_image']['name']);
-            $question->setImage($media_url . $question->getId() . "-" . $data['upload_image']['name']);
+            $data['upload_image']['name'] = $this->fileNewname($path, $question->getId() . "-" . $data['upload_image']['name']);
+            move_uploaded_file($data['upload_image']['tmp_name'], $path . $data['upload_image']['name']);
+            $question->setImage($media_url . $data['upload_image']['name']);
             ErrorHandler::stop(true);
         }
 
@@ -105,8 +106,9 @@ class Quiz extends Game implements ServiceManagerAwareInterface
 
         if (!empty($data['upload_image']['tmp_name'])) {
             ErrorHandler::start();
-            move_uploaded_file($data['upload_image']['tmp_name'], $path . $question->getId() . "-" . $data['upload_image']['name']);
-            $question->setImage($media_url . $question->getId() . "-" . $data['upload_image']['name']);
+			$data['upload_image']['name'] = $this->fileNewname($path, $question->getId() . "-" . $data['upload_image']['name']);
+            move_uploaded_file($data['upload_image']['tmp_name'], $path . $data['upload_image']['name']);
+            $question->setImage($media_url . $data['upload_image']['name']);
             ErrorHandler::stop(true);
         }
 

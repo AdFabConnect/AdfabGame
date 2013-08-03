@@ -18,7 +18,7 @@ use Zend\InputFilter\InputFilterInterface;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"quiz" = "Quiz", "lottery" = "Lottery", "instantwin" =
- * "InstantWin", "postvote" = "PostVote"})
+ * "InstantWin", "postvote" = "PostVote", "treasurehunt" = "TreasureHunt"})
  * @ORM\Table(name="game")
  */
 class Game implements InputFilterAwareInterface

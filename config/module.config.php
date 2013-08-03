@@ -16,6 +16,45 @@ return array(
             )
         )
     ),
+	'assetic_configuration' => array(
+		'modules' => array(
+			'game' => array(
+				# module root path for your css and js files
+				'root_path' => __DIR__ . '/../assets',
+				# collection of assets
+				'collections' => array(
+					'admin_treasurehunt_css' => array(
+						'assets' => array(
+							__DIR__ . '/../assets/css/areapicker/style.min.css',
+						),
+						'filters' => array(
+							'CssRewriteFilter' => array(
+								'name' => 'Assetic\Filter\CssRewriteFilter',
+							)
+						),
+						'options' => array(),
+					),
+					'head_admin_treasurehunt_js' => array(
+						'assets' => array(
+							__DIR__ . '/../assets/js/areapicker/app.js',
+						    __DIR__ . '/../assets/js/areapicker/config.js',
+						    __DIR__ . '/../assets/js/areapicker/selection.js',
+						    __DIR__ . '/../assets/js/lib/easyxdm/easyxdm.min.js'
+						),
+						'filters' => array(),
+						'options' => array(),
+					),
+				),
+			),
+		),
+
+		'routes' => array(
+			'zfcadmin/adfabgame/treasure(.*)' => array(
+                '@admin_treasurehunt_css',
+				'@head_admin_treasurehunt_js',
+            ),
+		),
+	),
     'core_layout' => array(
         'AdfabGame' => array(
             'default_layout' => 'adfab-game/layout/2columns-right',
@@ -64,13 +103,13 @@ return array(
                     ),
                 ),
                 'adfabgame'   => array(
-                    'default_layout' => 'layout/1column',
+                    'default_layout' => 'adfab-game/layout/1column-custom.phtml',
                     'children_views' => array(
                         'col_right'  => 'adfab-game/layout/col-quiz.phtml',
                     ),
                     'actions' => array(
                         'index' => array(
-                            'default_layout' => 'layout/2columns-right',
+                            'default_layout' => 'adfab-game/layout/2columns-right',
                             'children_views' => array(
                                 'col_right'  => 'adfab-game/layout/col-quiz.phtml',
                             ),
@@ -223,6 +262,9 @@ return array(
         	'adfab-game/admin/list'                  => __DIR__ .  '/../view/adfab-game/admin/list.phtml',
         	'adfab-game/admin/pagination_gamelist'   => __DIR__ .  '/../view/adfab-game/admin/pagination_gamelist.phtml',
         	'adfab-game/admin/instant-win/pagination_occurencelist'   => __DIR__ .  '/../view/adfab-game/admin/instant-win/pagination_occurencelist.phtml',
+            'adfab-game/admin/pagination_entrylist'  => __DIR__ .  '/../view/adfab-game/admin/pagination_entrylist.phtml',
+        	'adfab-game/treasure-hunt/list-step'     => __DIR__ .  '/../view/adfab-game/admin/treasure-hunt/list-step.phtml',
+        	'adfab-game/treasure-hunt/step'     => __DIR__ .  '/../view/adfab-game/admin/treasure-hunt/step.phtml',
         ),
         'template_path_stack' => array(
             'adfabgame' => __DIR__ . '/../view',
@@ -254,6 +296,7 @@ return array(
             'adfabgame_admin_instantwin'    => 'AdfabGame\Controller\Admin\InstantWinController',
             'adfabgame_admin_postvote'      => 'AdfabGame\Controller\Admin\PostVoteController',
             'adfabgame_admin_quiz'          => 'AdfabGame\Controller\Admin\QuizController',
+        	'adfabgame_admin_treasurehunt'  => 'AdfabGame\Controller\Admin\TreasureHuntController',
             'adfabgame_admin_prizecategory' => 'AdfabGame\Controller\Admin\PrizeCategoryController',
         ),
     ),
@@ -374,30 +417,30 @@ return array(
                				),
                 		),
                		),
+                    'prizes' => array(
+                    		'type' => 'Literal',
+                    		'options' => array(
+                    				'route' => '/lots',
+                    				'defaults' => array(
+                    						'controller' => 'adfabgame_quiz',
+                    						'action'     => 'prizes',
+                    				),
+                    		),
+                    		'may_terminate' => true,
+                    		'child_routes' => array(
+                    				'prize' => array(
+                    						'type' => 'Segment',
+                    						'options' => array(
+                    								'route' => '/:prize',
+                    								'defaults' => array(
+                    										'controller' => 'adfabgame_quiz',
+                    										'action'     => 'prize',
+                    								),
+                    						),
+                    				),
+                    		),
+                    ),
                 ),
-            	'prizes' => array(
-           			'type' => 'Literal',
-       				'options' => array(
-   						'route' => '/lots',
-   						'defaults' => array(
- 							'controller' => 'adfabgame_quiz',
- 							'action'     => 'prizes',
-    					),
-       				),
-       				'may_terminate' => true,
-       				'child_routes' => array(
-    					'prize' => array(
-    						'type' => 'Segment',
-        					'options' => array(
-        						'route' => '/:prize',
-        						'defaults' => array(
-        							'controller' => 'adfabgame_quiz',
-        							'action'     => 'prize',
-        						),
-        					),
-        				),
-        			),
-           		),
             ),
 
             'lottery' => array(
@@ -491,30 +534,30 @@ return array(
            					),
            				),
               		),
+                    'prizes' => array(
+                		'type' => 'Literal',
+                		'options' => array(
+            				'route' => '/lots',
+            				'defaults' => array(
+        						'controller' => 'adfabgame_lottery',
+        						'action'     => 'prizes',
+            				),
+                		),
+                		'may_terminate' => true,
+                		'child_routes' => array(
+            				'prize' => array(
+        						'type' => 'Segment',
+        						'options' => array(
+    								'route' => '/:prize',
+    								'defaults' => array(
+										'controller' => 'adfabgame_lottery',
+										'action'     => 'prize',
+    								),
+        						),
+            				),
+                		),
+                    ),
                 ),
-            	'prizes' => array(
-       				'type' => 'Literal',
-       				'options' => array(
-   						'route' => '/lots',
-   						'defaults' => array(
-							'controller' => 'adfabgame_lottery',
-							'action'     => 'prizes',
-   						),
-       				),
-       				'may_terminate' => true,
-       				'child_routes' => array(
-   						'prize' => array(
-							'type' => 'Segment',
-							'options' => array(
-								'route' => '/:prize',
-    							'defaults' => array(
-    								'controller' => 'adfabgame_lottery',
-    								'action'     => 'prize',
-    							),
-        					),
-        				),
-        			),
-           		),
             ),
 
             'instantwin' => array(
@@ -1039,17 +1082,17 @@ return array(
                             ),
                         ),
                         'child_routes' =>array(
-                                'leaderboard' => array(
-                                        'type' => 'Segment',
-                                        'options' => array(
-                                                'route' => '/leaderboard/:gameId[/:p]',
-                                                'defaults' => array(
-                                                        'controller' => 'adfabgame_admin_instantwin',
-                                                        'action'     => 'leaderboard',
-                                                        'gameId'     => 0
-                                                ),
-                                        ),
+                            'leaderboard' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/leaderboard/:gameId[/:p]',
+                                    'defaults' => array(
+                                    	'controller' => 'adfabgame_admin_instantwin',
+                                        'action'     => 'leaderboard',
+                                        'gameId'     => 0
+                                    ),
                                 ),
+                            ),
                             'download' => array(
                                 'type' => 'Segment',
                                 'options' => array(
@@ -1096,6 +1139,40 @@ return array(
                                     ),
                             ),
                     ),
+                		'treasurehunt' => array(
+                				'type' => 'Literal',
+                				'priority' => 1000,
+                				'options' => array(
+                						'route' => '/treasurehunt',
+                						'defaults' => array(
+                								'controller' => 'adfabgame_admin_treasurehunt',
+                								'action'     => 'index',
+                						),
+                				),
+                				'child_routes' =>array(
+                						'leaderboard' => array(
+                								'type' => 'Segment',
+                								'options' => array(
+                										'route' => '/leaderboard/:gameId[/:p]',
+                										'defaults' => array(
+                												'controller' => 'adfabgame_admin_treasurehunt',
+                												'action'     => 'leaderboard',
+                												'gameId'     => 0
+                										),
+                								),
+                						),
+                						'download' => array(
+                								'type' => 'Segment',
+                								'options' => array(
+                										'route' => '/download/:gameId',
+                										'defaults' => array(
+                												'controller' => 'adfabgame_admin_treasurehunt',
+                												'action'     => 'download',
+                										),
+                								),
+                						),
+                				),
+                		),
                     'adfabgame' => array(
                         'type' => 'Literal',
                         'priority' => 1000,
@@ -1430,6 +1507,88 @@ return array(
                                     ),
                                 ),
                             ),
+                        		
+                        	'create-treasurehunt' => array(
+                       			'type' => 'Segment',
+                   				'options' => array(
+                        			'route' => '/create-treasurehunt/:treasureHuntId',
+                        			'defaults' => array(
+           								'controller'         => 'adfabgame_admin_treasurehunt',
+                        				'action'             => 'createTreasureHunt',
+                        				'treasureHuntId'    => 0
+                       				),
+                   				),
+                       		),
+                        	'edit-treasurehunt' => array(
+                       			'type' => 'Segment',
+                   				'options' => array(
+               						'route' => '/edit-treasurehunt/:gameId',
+                        			'defaults' => array(
+                       					'controller'         => 'adfabgame_admin_treasurehunt',
+           								'action'             => 'editTreasureHunt',
+               							'gameId'    => 0
+                        			),
+                   				),
+                       		),
+                        		'treasurehunt-step-list' => array(
+                        			'type' => 'Segment',
+                        			'options' => array(
+                        				'route' => '/treasurehunt-step-list/:gameId[/:filter][/:p]',
+                        				'defaults' => array(
+                       						'controller'   => 'adfabgame_admin_treasurehunt',
+                       						'action'       => 'listStep',
+                       						'gameId'	   => 0,
+                       						'filter'	   => 'DESC'
+                   						),
+                  						'constraints' => array(
+                  							'filter' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                   						),
+                       				),
+                        		),
+                        		'treasurehunt-step-add' => array(
+                        			'type' => 'Segment',
+                        			'options' => array(
+                       					'route' => '/treasurehunt-step-add/:gameId',
+                   						'defaults' => array(
+                   							'controller' => 'adfabgame_admin_treasurehunt',
+                   							'action'     => 'addStep',
+                   							'gameId'     => 0
+                        				),
+                        			),
+                        		),
+                        		'treasurehunt-step-edit' => array(
+                        			'type' => 'Segment',
+                        			'options' => array(
+                        				'route' => '/treasurehunt-step-edit/:gameId/:stepId',
+                   						'defaults' => array(
+               								'controller' => 'adfabgame_admin_treasurehunt',
+               								'action'     => 'editStep',
+                        					'gameId'     => 0,
+                   							'stepId'     => 0
+                   						),
+                       				),
+                        		),
+                        		'treasurehunt-step-remove' => array(
+                        			'type' => 'Segment',
+                        			'options' => array(
+                        				'route' => '/treasurehunt-step-remove/:stepId',
+                   						'defaults' => array(
+               								'controller' => 'adfabgame_admin_treasurehunt',
+               								'action'     => 'removeStep',
+                        					'stepId'     => 0
+                        				),
+                        			),
+                        		),
+                        	'treasure-hunt-areapicker' => array(
+                       			'type' => 'Segment',
+                   				'options' => array(
+               						'route' => '/treasure-hunt-areapicker',
+                        			'defaults' => array(
+                       					'controller'         => 'adfabgame_admin_treasurehunt',
+           								'action'             => 'areapicker',
+               						),
+                  				),
+                      		),
                         ),
                     ),
                 ),
@@ -1666,6 +1825,13 @@ return array(
                         'route'     => 'zfcadmin/adfabgame/postvote-form',
                         'privilege' => 'list',
                     ),
+                		
+                	'create-treasurehunt' => array(
+               			'label'     => 'Créer une chasse au trésor',
+           				'route'     => 'zfcadmin/adfabgame/create-treasurehunt',
+           				'resource'  => 'game',
+           				'privilege' => 'add',
+               		),
                 ),
             ),
         ),

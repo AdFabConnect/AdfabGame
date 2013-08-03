@@ -1,38 +1,39 @@
 {
-    "name": "adfab/game",
-    "description": "The Game module !",
-    "type": "library",
-    "license": "BSD-3-Clause",
-    "keywords": [
-        "zf2",
-        "playground",
-        "adfab",
-        "game"
-    ],
-    "homepage": "https://github.com/gregorybesson/AdfabGame",
-    "authors": [
-        {
-            "name": "Greg Besson",
-            "email": "gregory.besson@adfab.fr",
-            "homepage": "http://www.adfab.fr"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {
-        "php": ">=5.3.3",
+	"name" : "adfab/game",
+	"description" : "The Game module !",
+	"type" : "library",
+	"authors" : [{
+			"name" : "Greg Besson",
+			"email" : "gregory.besson@adfab.fr",
+			"homepage" : "http://www.adfab.fr"
+		}
+	],
+	"keywords" : [
+		"zf2",
+		"playground",
+		"adfab",
+		"game"
+	],
+	"homepage" : "https://github.com/gregorybesson/AdfabGame",
+	"license" : [
+		"BSD-3-Clause"
+	],
+	"minimum-stability": "dev",
+	"require" : {
+		"zendframework/zend-stdlib" : "~2.1",
+		"php" : ">=5.3.3",
 		"zendframework/zend-mvc" : "~2.1",
 		"zendframework/zend-form" : "~2.1",
 		"zendframework/zend-loader" : "~2.1",
 		"zendframework/zend-servicemanager" : "~2.1",
-		"zendframework/zend-modulemanager" : "~2.1",
-		"zendframework/zend-stdlib" : "~2.1",
-		"zf-commons/zfc-base" : "0.*",
-		"zf-commons/zfc-user" : "0.*"
-    },
-    "require-dev": {
-        "doctrine/doctrine-orm-module": "0.*"
-    },
-    "autoload" : {
+		"adfab/core" : "0.*",
+		"adfab/user" : "0.*",
+		"zendframework/zend-modulemanager" : "~2.1"
+	},
+	"require-dev" : {
+		"phpunit/phpunit" : "3.7.*"
+	},
+	"autoload" : {
 		"psr-0" : {
 			"AdfabGame" : "src/"
 		}

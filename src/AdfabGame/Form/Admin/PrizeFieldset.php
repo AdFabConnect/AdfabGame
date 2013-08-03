@@ -17,7 +17,7 @@ class PrizeFieldset extends Fieldset
     public function __construct($name = null, ServiceManager $serviceManager, Translator $translator)
     {
         parent::__construct($name);
-        $entityManager = $serviceManager->get('adfabgame_doctrine_em');
+        $entityManager = $serviceManager->get('doctrine.entitymanager.orm_default');
 
         $this->setHydrator(new DoctrineHydrator($entityManager, 'AdfabGame\Entity\Prize'))
         ->setObject(new Prize());

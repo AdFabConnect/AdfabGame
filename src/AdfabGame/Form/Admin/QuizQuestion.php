@@ -15,7 +15,7 @@ class QuizQuestion extends ProvidesEventsForm
     {
         parent::__construct($name);
 
-        $entityManager = $serviceManager->get('adfabgame_doctrine_em');
+        $entityManager = $serviceManager->get('doctrine.entitymanager.orm_default');
 
         // The form will hydrate an object of type "QuizQuestion"
         // This is the secret for working with collections with Doctrine

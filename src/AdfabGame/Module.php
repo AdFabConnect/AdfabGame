@@ -141,7 +141,6 @@ class Module
     {
         return array(
             'aliases' => array(
-                'adfabgame_doctrine_em'     => 'doctrine.entitymanager.orm_default',
                 // An alias for linking a partner service with AdfabGame without adherence
                 'adfabgame_partner_service' => 'adfabpartnership_partner_service',
                 'adfabgame_message'         => 'adfabcore_message',
@@ -153,6 +152,7 @@ class Module
                 'adfabgame_lottery_service'           => 'AdfabGame\Service\Lottery',
                 'adfabgame_postvote_service'          => 'AdfabGame\Service\PostVote',
                 'adfabgame_quiz_service'              => 'AdfabGame\Service\Quiz',
+            	'adfabgame_treasurehunt_service'      => 'AdfabGame\Service\TreasureHunt',
                 'adfabgame_instantwin_service'        => 'AdfabGame\Service\InstantWin',
                 'adfabgame_leaderboard_service'       => 'AdfabGame\Service\LeaderBoard',
             	'adfabgame_prize_service'     		  => 'AdfabGame\Service\Prize',
@@ -170,7 +170,7 @@ class Module
 
                 'adfabgame_game_mapper' => function ($sm) {
                     $mapper = new \AdfabGame\Mapper\Game(
-                            $sm->get('adfabgame_doctrine_em'),
+                            $sm->get('doctrine.entitymanager.orm_default'),
                             $sm->get('adfabgame_module_options')
                     );
 
@@ -179,7 +179,7 @@ class Module
 
                 'adfabgame_lottery_mapper' => function ($sm) {
                     $mapper = new \AdfabGame\Mapper\Lottery(
-                            $sm->get('adfabgame_doctrine_em'),
+                            $sm->get('doctrine.entitymanager.orm_default'),
                             $sm->get('adfabgame_module_options')
                     );
 
@@ -188,7 +188,7 @@ class Module
 
                 'adfabgame_instantwin_mapper' => function ($sm) {
                     $mapper = new \AdfabGame\Mapper\InstantWin(
-                        $sm->get('adfabgame_doctrine_em'),
+                        $sm->get('doctrine.entitymanager.orm_default'),
                         $sm->get('adfabgame_module_options')
                     );
 
@@ -197,7 +197,7 @@ class Module
 
                 'adfabgame_instantwinoccurrence_mapper' => function ($sm) {
                     $mapper = new \AdfabGame\Mapper\InstantWinOccurrence(
-                        $sm->get('adfabgame_doctrine_em'),
+                        $sm->get('doctrine.entitymanager.orm_default'),
                         $sm->get('adfabgame_module_options')
                     );
 
@@ -206,7 +206,7 @@ class Module
 
                 'adfabgame_quiz_mapper' => function ($sm) {
                 $mapper = new \AdfabGame\Mapper\Quiz(
-                        $sm->get('adfabgame_doctrine_em'),
+                        $sm->get('doctrine.entitymanager.orm_default'),
                         $sm->get('adfabgame_module_options')
                 );
 
@@ -215,7 +215,7 @@ class Module
 
                 'adfabgame_leaderboard_mapper' => function ($sm) {
                 $mapper = new \AdfabGame\Mapper\LeaderBoard(
-                        $sm->get('adfabgame_doctrine_em'),
+                        $sm->get('doctrine.entitymanager.orm_default'),
                         $sm->get('adfabgame_module_options')
                 );
 
@@ -224,7 +224,7 @@ class Module
 
                 'adfabgame_quizquestion_mapper' => function ($sm) {
                     $mapper = new \AdfabGame\Mapper\QuizQuestion(
-                            $sm->get('adfabgame_doctrine_em'),
+                            $sm->get('doctrine.entitymanager.orm_default'),
                             $sm->get('adfabgame_module_options')
                     );
 
@@ -233,7 +233,7 @@ class Module
 
                 'adfabgame_quizanswer_mapper' => function ($sm) {
                 $mapper = new \AdfabGame\Mapper\QuizAnswer(
-                        $sm->get('adfabgame_doctrine_em'),
+                        $sm->get('doctrine.entitymanager.orm_default'),
                         $sm->get('adfabgame_module_options')
                 );
 
@@ -242,7 +242,7 @@ class Module
 
                 'adfabgame_quizreply_mapper' => function ($sm) {
                     $mapper = new \AdfabGame\Mapper\QuizReply(
-                        $sm->get('adfabgame_doctrine_em'),
+                        $sm->get('doctrine.entitymanager.orm_default'),
                         $sm->get('adfabgame_module_options')
                     );
 
@@ -251,7 +251,7 @@ class Module
 
                 'adfabgame_entry_mapper' => function ($sm) {
                     $mapper = new \AdfabGame\Mapper\Entry(
-                        $sm->get('adfabgame_doctrine_em'),
+                        $sm->get('doctrine.entitymanager.orm_default'),
                         $sm->get('adfabgame_module_options')
                     );
 
@@ -260,7 +260,7 @@ class Module
 
                 'adfabgame_postvote_mapper' => function ($sm) {
                     $mapper = new \AdfabGame\Mapper\PostVote(
-                        $sm->get('adfabgame_doctrine_em'),
+                        $sm->get('doctrine.entitymanager.orm_default'),
                         $sm->get('adfabgame_module_options')
                     );
 
@@ -269,7 +269,7 @@ class Module
 
                 'adfabgame_postvoteform_mapper' => function ($sm) {
                 $mapper = new \AdfabGame\Mapper\PostVoteForm(
-                        $sm->get('adfabgame_doctrine_em'),
+                        $sm->get('doctrine.entitymanager.orm_default'),
                         $sm->get('adfabgame_module_options')
                 );
 
@@ -278,7 +278,7 @@ class Module
 
                 'adfabgame_postvotepost_mapper' => function ($sm) {
                     $mapper = new \AdfabGame\Mapper\PostVotePost(
-                        $sm->get('adfabgame_doctrine_em'),
+                        $sm->get('doctrine.entitymanager.orm_default'),
                         $sm->get('adfabgame_module_options')
                     );
 
@@ -287,7 +287,7 @@ class Module
 
                 'adfabgame_postvotepostelement_mapper' => function ($sm) {
                     $mapper = new \AdfabGame\Mapper\PostVotePostElement(
-                        $sm->get('adfabgame_doctrine_em'),
+                        $sm->get('doctrine.entitymanager.orm_default'),
                         $sm->get('adfabgame_module_options')
                     );
 
@@ -296,7 +296,7 @@ class Module
 
                 'adfabgame_postvotevote_mapper' => function ($sm) {
                     $mapper = new \AdfabGame\Mapper\PostVoteVote(
-                        $sm->get('adfabgame_doctrine_em'),
+                        $sm->get('doctrine.entitymanager.orm_default'),
                         $sm->get('adfabgame_module_options')
                     );
 
@@ -305,7 +305,7 @@ class Module
 
                 'adfabgame_prize_mapper' => function ($sm) {
                 	$mapper = new \AdfabGame\Mapper\Prize(
-                		$sm->get('adfabgame_doctrine_em'),
+                		$sm->get('doctrine.entitymanager.orm_default'),
                 		$sm->get('adfabgame_module_options')
                 	);
 
@@ -314,7 +314,7 @@ class Module
 
                 'adfabgame_prizecategory_mapper' => function ($sm) {
                     $mapper = new \AdfabGame\Mapper\PrizeCategory(
-                        $sm->get('adfabgame_doctrine_em'),
+                        $sm->get('doctrine.entitymanager.orm_default'),
                         $sm->get('adfabgame_module_options')
                     );
 
@@ -323,11 +323,20 @@ class Module
 
                 'adfabgame_prizecategoryuser_mapper' => function ($sm) {
                     $mapper = new \AdfabGame\Mapper\PrizeCategoryUser(
-                        $sm->get('adfabgame_doctrine_em'),
+                        $sm->get('doctrine.entitymanager.orm_default'),
                         $sm->get('adfabgame_module_options')
                     );
 
                     return $mapper;
+                },
+                
+                'adfabgame_treasurehuntstep_mapper' => function ($sm) {
+                	$mapper = new \AdfabGame\Mapper\TreasureHuntStep(
+                			$sm->get('doctrine.entitymanager.orm_default'),
+                			$sm->get('adfabgame_module_options')
+                	);
+                
+                	return $mapper;
                 },
 
                 'adfabgame_game_form' => function($sm) {
@@ -415,6 +424,24 @@ class Module
                     $form->setInputFilter(new Form\Frontend\ShareMailFilter());
 
                     return $form;
+                },
+                
+                'adfabgame_treasurehunt_form' => function($sm) {
+                	$translator = $sm->get('translator');
+                	$form = new Form\Admin\TreasureHunt(null, $sm, $translator);
+                	$treasurehunt = new Entity\TreasureHunt();
+                	$form->setInputFilter($treasurehunt->getInputFilter());
+                
+                	return $form;
+                },
+                
+                'adfabgame_treasurehuntstep_form' => function($sm) {
+                	$translator = $sm->get('translator');
+                	$form = new Form\Admin\TreasureHuntStep(null, $sm, $translator);
+                	$treasurehuntStep = new Entity\TreasureHuntStep();
+                	$form->setInputFilter($treasurehuntStep->getInputFilter());
+                
+                	return $form;
                 },
             ),
         );

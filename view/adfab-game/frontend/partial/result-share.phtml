@@ -1,8 +1,13 @@
 <?php $this->plugin('translate')->setTranslatorTextDomain('adfabgame');// Pour le texte ?>
 
-<?php $twShareMsg = ($this->game->getTwShareMessage()) ? $this->game->getTwShareMessage() : 'Venez jouez au jeu : ' . $this->game->getTitle() . ' du Club Playground '; ?>
-<?php $fbShareMsg = ($this->game->getFbShareMessage()) ? $this->game->getFbShareMessage() : 'Venez jouez au jeu : ' . $this->game->getTitle() . ' du Club Playground '; ?>
-<?php $fbRequestMsg = ($this->game->getFbRequestMessage()) ? $this->game->getFbRequestMessage() : 'Venez jouez au jeu : ' . $this->game->getTitle() . ' du Club Playground '; ?>
+<?php
+$defaultMsg = (isset($this->userTimer['timer'])) ? 'J\'ai eu '.$this->userTimer['ratio'].'% de bonnes réponses en '.$this->userTimer['timer'].' secondes au jeu '.$this->game->getTitle().'. Venez faire mieux ! ' : 'Venez jouer au jeu : ' . $this->game->getTitle() . ' du Club Playground ';
+
+$twShareMsg = ($this->game->getTwShareMessage()) ? $this->game->getTwShareMessage() : $defaultMsg;
+$fbShareMsg = ($this->game->getFbShareMessage()) ? $this->game->getFbShareMessage() : $defaultMsg;
+
+$fbRequestMsg = ($this->game->getFbRequestMessage()) ? $this->game->getFbRequestMessage() : $defaultMsg;
+?>
 
 <div id="datas-result" data-url="<?php echo $this->url($this->gameType, array("id" => $this->game->getIdentifier()), array('force_canonical' => true)); ?>" data-secretkey="<?php echo $this->secretKey; ?>" data-fbmsg="<?php echo $fbShareMsg; ?>" data-twmsg="<?php echo $twShareMsg; ?>" data-fbrequest="<?php echo $fbRequestMsg; ?>" data-sociallink="<?php echo $this->socialLinkUrl; ?>"></div>
 

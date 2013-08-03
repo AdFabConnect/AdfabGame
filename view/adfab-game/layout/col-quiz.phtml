@@ -13,7 +13,7 @@
 	
 		<!-- ADSERVING SIDEBAR -->
 
-		<?php echo $this->partial('application/index/partial/col-adserving.phtml', array('cat2' => 'game', 'cat3' => '&EASTgameid='.$this->game->getId())); ?>
+		<?php //echo $this->partial('application/index/partial/col-adserving.phtml', array('cat2' => 'game', 'cat3' => '&EASTgameid='.$this->game->getId())); ?>
 		<!-- END ADSERVING SIDEBAR -->
 	
 		<!-- COLUMNBLOCK2 (if not null) -->
@@ -24,11 +24,11 @@
 		<?php endif;?>
 		<!-- END COLUMNBLOCK2 -->
 		
-		<?php if(($this->adfabDynablock('game'.$this->game->getId())) != ''):?>
-	    	<?php foreach($this->adfabDynablock('game'.$this->game->getId()) as $block): ?>
-	    		<div class="sd-block ad"><?php echo $block ?></div>
-	    	<?php endforeach; ?>
-    	<?php endif; ?>
+		<?php //if(($this->adfabDynablock('game'.$this->game->getId())) != ''):?>
+	    	<?php //foreach($this->adfabDynablock('game'.$this->game->getId()) as $block): ?>
+	    		<!-- div class="sd-block ad"><?php //echo $block ?></div-->
+	    	<?php //endforeach; ?>
+    	<?php //endif; ?>
 	
 		<div id="sidebar-game" class="sd-block">
 			<p class="green"><?php echo $this->translate('Comment participer ?'); ?></p>
@@ -45,7 +45,7 @@
 					<img src="<?php echo $this->basePath('images/common/btn-question.png') ?>" alt="" />
 				</div>
 				<?php
-					$questions = $game->getQuestions();
+					$questions = $this->game->getQuestions();
 					$prediction = false;
 			        foreach ($questions as $q) {
 			            if($q->getPrediction()){

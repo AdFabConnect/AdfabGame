@@ -119,6 +119,8 @@ class PostVoteController extends GameController
                 }
                 if ($lengthMax && $lengthMax > $lengthMin) {
                     $options['max'] = $lengthMax;
+                    $element->setAttribute('maxlength', $lengthMax);
+                    $options['messages'] = array(\Zend\Validator\StringLength::TOO_LONG => sprintf($this->getServiceLocator()->get('translator')->translate('This field contains more than %s characters', 'adfabgame'), $lengthMax));
                 }
                 $inputFilter->add($factory->createInput(array(
                     'name'     => $name,

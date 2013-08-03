@@ -45,6 +45,13 @@ class Entry implements ServiceLocatorAwareInterface
         return $this->getEntityRepository()->findBy($array);
     }
 
+    public function countByGame(\AdfabGame\Entity\Game $game)
+    {
+        $query = $this->em->createQuery('SELECT COUNT(e.id) FROM AdfabGame\Entity\Entry e WHERE e.game = :game');
+        $query->setParameter('game', $game);
+        return $query->getSingleScalarResult();
+    }
+
     public function draw($game)
     {
         $total = $game->getWinners() + $game->getSubstitutes();
@@ -78,6 +85,13 @@ class Entry implements ServiceLocatorAwareInterface
         $result = $query->getResult();
 
         return $result;
+    }
+
+    public function queryByGame(\AdfabGame\Entity\Game $game)
+    {
+        $query = $this->em->createQuery('SELECT e FROM AdfabGame\Entity\Entry e WHERE e.game = :game');
+        $query->setParameter('game', $game);
+        return $query;
     }
 
     public function findByGameId($game)

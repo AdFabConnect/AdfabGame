@@ -12,6 +12,7 @@ if (isset($fm[0]))
 	<li class="btn-admin"><a href="<?php echo $this->url('zfcadmin/adfabgame/create-quiz');?>"><?php echo $this->translate('Add new Quiz'); ?></a></li>
 	<li class="btn-admin"><a href="<?php echo $this->url('zfcadmin/adfabgame/create-instantwin');?>"><?php echo $this->translate('Add new Instant Win'); ?></a></li>
 	<li class="btn-admin"><a href="<?php echo $this->url('zfcadmin/adfabgame/create-postvote');?>"><?php echo $this->translate('Add new Post & Vote'); ?></a></li>
+	<li class="btn-admin"><a href="<?php echo $this->url('zfcadmin/adfabgame/create-treasurehunt');?>"><?php echo $this->translate('Add new Treasure Hunt'); ?></a></li>
 </ul>
 
 <h1>Liste des jeux</h1>
@@ -52,6 +53,8 @@ if (isset($fm[0]))
                 <?php $editLink = $this->url('zfcadmin/adfabgame/edit-instantwin', array('gameId' => $game->getId()));?>
             <?php elseif($game->getClassType() == 'postvote'):?>
                 <?php $editLink = $this->url('zfcadmin/adfabgame/edit-postvote', array('gameId' => $game->getId()));?>
+            <?php elseif($game->getClassType() == 'treasurehunt'):?>
+                <?php $editLink = $this->url('zfcadmin/adfabgame/edit-treasurehunt', array('gameId' => $game->getId()));?>
             <?php else:?>
                 <?php $editLink = $this->url('zfcadmin/adfabgame/edit', array('gameId' => $game->getId()));?>
             <?php endif;?>
@@ -61,6 +64,8 @@ if (isset($fm[0]))
                 <?php $optionLink = $this->url('zfcadmin/adfabgame/quiz-question-list', array('quizId' => $game->getId())); ?>
             <?php elseif($game->getClassType() == 'instantwin'):?>
                 <?php $optionLink = $this->url('zfcadmin/adfabgame/instantwin-occurrence-list', array('gameId' => $game->getId())); ?>
+            <?php elseif($game->getClassType() == 'treasurehunt'):?>
+                <?php $optionLink = $this->url('zfcadmin/adfabgame/treasurehunt-step-list', array('gameId' => $game->getId())); ?>
             <?php elseif($game->getClassType() == 'postvote'):?>
                 <?php $optionLink = $this->url('zfcadmin/adfabgame/postvote-form', array('gameId' => $game->getId())); ?>
             <?php else: ?>
@@ -69,7 +74,7 @@ if (isset($fm[0]))
             <td>
                 <a href='<?php echo $leaderboardLink ?>'><?php echo $this->translate('Leader Board'); ?></a> | <a href='<?php echo $editLink ?>'><?php echo $this->translate('Edit'); ?></a> | <a href='<?php echo $deleteLink ?>'><?php echo $this->translate('Delete'); ?></a><?php if($optionLink != ''):?> | <a href='<?php echo $optionLink ?>'><?php echo $this->translate('Add options'); ?></a><?php endif;?>
             </td>
-            <td><?php echo count($game->leaderboard); ?></td>
+            <td><?php echo $game->leaderboard; ?></td>
             <td><?php echo count($this->partnerSubscriber($game->getPartner(), false));?></td>
         </tr>
     <?php endforeach; ?>

@@ -49,7 +49,7 @@ class LotteryController extends GameController
 
     public function resultAction()
     {
-        $identifier = $this->getEvent()->getRouteMatch()->getParam('id');
+    	$identifier = $this->getEvent()->getRouteMatch()->getParam('id');
         $user = $this->zfcUserAuthentication()->getIdentity();
         $sg = $this->getGameService();
 
